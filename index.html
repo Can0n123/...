@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sana Bir Sorum Var! ❤️</title>
+    <style>
+        body {
+            display: flex;
+            flex-direction: column; /* Yazıyı üstte, butonları altta yapmak için */
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #ff8fa3; /* Attığın resimdeki pembe tonu */
+            font-family: sans-serif;
+            overflow: hidden; /* Taşmaları engelle */
+            color: white;
+            position: relative;
+        }
+
+        h1 {
+            font-size: 2.2rem; /* Yazıyı biraz daha büyük ve net yaptık */
+            text-align: center;
+            margin-bottom: 80px; /* Butonlarla yazı arasına boşluk koyduk */
+            padding: 0 20px;
+            z-index: 10;
+        }
+
+        .btn-container {
+            display: flex;
+            justify-content: center; /* Butonları yan yana ortala */
+            gap: 40px; /* Butonlar arasına kesin boşluk koy, üst üste binmesinler */
+            position: relative;
+            z-index: 10;
+        }
+
+        button {
+            padding: 15px 40px;
+            font-size: 1.2rem;
+            font-weight: bold;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            z-index: 100;
+        }
+
+        #evetBtn { background-color: #2ecc71; color: white; position: relative; }
+        
+        #hayirBtn {
+            background-color: #e74c3c;
+            color: white;
+            position: absolute; /* Kaçması için serbest bıraktık */
+            transition: 0.1s; /* Hafif bir akışkanlık için */
+        }
+    </style>
+</head>
+<body>
+
+    <audio id="muzik" preload="auto">
+        <source src="sarki.mp3" type="audio/mpeg">
+    </audio>
+
+    <h1 id="txt">Benimle Çıkar Mısın? <br>Senden Hoşlanıyorum ❤️</h1>
+
+    <div class="btn-container">
+        <button id="evetBtn" onclick="onayla()">EVET ♡</button>
+        <button id="hayirBtn" onmouseover="kac()" onclick="kac()">HAYIR</button>
+    </div>
+
+    <script>
+        function kac() {
+            const b = document.getElementById('hayirBtn');
+            // Butonun tüm ekran içinde rastgele bir yere ışınlanması
+            const x = Math.random() * (window.innerWidth - 150);
+            const y = Math.random() * (window.innerHeight - 80);
+            b.style.left = x + 'px';
+            b.style.top = y + 'px';
+        }
+
+        function onayla() {
+            // Şarkıyı bul ve çaldır (Sarka.mp3 dosyan tamamsa bu çalar)
+            const m = document.getElementById('muzik');
+            m.play().then(() => {
+                console.log("Müzik başladı!");
+            }).catch(e => {
+                console.error("Hata:", e);
+                // Eğer sarki.mp3 bulunamazsa uyarı ver
+                alert("Şarkı dosyası bulunamadı veya yüklenemedi!");
+            });
+
+            // Yazıyı değiştir
+            document.getElementById('txt').innerHTML = "Bende Seni Çok Seviyorum Yavrummm ❤️❤️❤️";
+            
+            // Butonları tamamen sil
+            document.getElementById('evetBtn').remove();
+            document.getElementById('hayirBtn').remove();
+
+            alert("İyi ki varsın! Seni her şeyden çok seviyorum. ❤️");
+        }
+    </script>
+</body>
+</html>
