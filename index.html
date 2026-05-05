@@ -15,6 +15,7 @@
             font-family: 'Poppins', sans-serif;
             overflow: hidden;
             color: white;
+            transition: 1s;
         }
 
         .container {
@@ -26,6 +27,7 @@
             box-shadow: 0 10px 30px rgba(0,0,0,0.3);
             width: 80%;
             max-width: 500px;
+            z-index: 10;
         }
 
         h1 {
@@ -62,43 +64,61 @@
             color: white;
             position: absolute;
         }
+
+        .final-screen {
+            display: none;
+            text-align: center;
+        }
     </style>
 </head>
 <body>
 
-    <div class="container">
+    <!-- Müzik Dosyası Buraya -->
+    <audio id="askSarkisi" loop>
+        <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" type="audio/mpeg">
+        Tarayıcın bu sesi desteklemiyor.
+    </audio>
+
+    <div class="container" id="mainCard">
         <h1>Sana Aşığım Seni Kaçıracam Kızım❤️</h1>
         <div class="buttons">
-            <button id="evetBtn" onclick="tebrikler()">EVET</button>
+            <button id="evetBtn" onclick="baslat()">EVET</button>
             <button id="kacanBtn">HAYIR</button>
         </div>
     </div>
 
+    <div id="finalMessage" class="final-screen">
+        <h1 style="font-size:5rem;">❤️ SENİ SEVİYORUM ❤️</h1>
+        <p style="font-size:2rem;">Hazırlan, operasyon başlıyor! ✈️</p>
+    </div>
+
     <script>
         const kacanBtn = document.getElementById('kacanBtn');
+        const sarki = document.getElementById('askSarkisi');
 
-        // Butonun kaçma fonksiyonu
+        // Kaçan Buton Fonksiyonu
         function butonuKacir() {
-            // Ekran genişliği ve yüksekliğini al
             const x = Math.random() * (window.innerWidth - kacanBtn.offsetWidth);
             const y = Math.random() * (window.innerHeight - kacanBtn.offsetHeight);
-            
             kacanBtn.style.left = x + 'px';
             kacanBtn.style.top = y + 'px';
         }
 
-        // Hem mouse hem dokunma için kaçma tetikleyicisi
         kacanBtn.addEventListener('mouseenter', butonuKacir);
         kacanBtn.addEventListener('touchstart', butonuKacir);
 
-        function tebrikler() {
-            alert('Zaten başka seçeneğin yoktu! ❤️ Hazırlan, operasyon başlıyor!');
-            document.body.innerHTML = `
-                <div style="text-align:center; width:100%;">
-                    <h1 style="font-size:5rem;">❤️ SENİ SEVİYORUM ❤️</h1>
-                    <p style="font-size:2rem;">Artık benimle geliyorsun!</p>
-                </div>
-            `;
+        // Evet'e basınca çalışacak fonksiyon
+        function baslat() {
+            // Şarkıyı başlat
+            sarki.play();
+            
+            // Ekranı değiştir
+            document.getElementById('mainCard').style.display = 'none';
+            document.getElementById('finalMessage').style.display = 'block';
+            document.body.style.background = "#ff4b2b";
+            
+            // Küçük bir konfeti efekti uyarısı
+            alert('Müzik eşliğinde kaçırılıyorsun! ❤️');
         }
     </script>
 
