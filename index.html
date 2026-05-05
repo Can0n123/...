@@ -32,12 +32,14 @@
 
         h1 { font-size: 2.2rem; margin-bottom: 30px; }
 
-        .buttons {
+        /* Butonların başlangıçta düzgün durması için */
+        .btn-wrapper {
             display: flex;
             justify-content: center;
-            gap: 40px;
-            height: 150px;
             align-items: center;
+            gap: 20px;
+            height: 150px;
+            position: relative; /* İçindeki mutlak konumlu butonlar için */
         }
 
         button {
@@ -47,15 +49,21 @@
             border-radius: 50px;
             cursor: pointer;
             font-weight: bold;
+            transition: transform 0.2s;
         }
 
-        #evetBtn { background: white; color: #ff416c; }
+        #evetBtn { 
+            background: white; 
+            color: #ff416c; 
+            z-index: 5;
+        }
 
         #kacanBtn {
             background: #333;
             color: white;
-            position: absolute;
-            transition: 0.1s;
+            position: absolute; /* Kaçabilmesi için şart */
+            transition: all 0.2s ease; /* Daha yumuşak kaçış */
+            z-index: 10;
         }
 
         #finalMessage { display: none; text-align: center; }
@@ -63,16 +71,14 @@
 </head>
 <body>
 
-    <!-- Müzik Kutusu -->
     <audio id="askSarkisi" loop>
-        <!-- Tarayıcıya iki seçenek sunuyoruz, hangisi tutarsa -->
         <source src="sarki.mp3" type="audio/mpeg">
-        <source src="sarki" type="audio/mpeg">
+        <source src="./sarki.mp3" type="audio/mpeg">
     </audio>
 
     <div class="container" id="mainCard">
         <h1>Sana Aşığım Seni Kaçıracam Kızım❤️</h1>
-        <div class="buttons">
+        <div class="btn-wrapper">
             <button id="evetBtn" onclick="baslat()">EVET</button>
             <button id="kacanBtn">HAYIR</button>
         </div>
@@ -87,24 +93,28 @@
         const kacanBtn = document.getElementById('kacanBtn');
         const sarki = document.getElementById('askSarkisi');
 
-        // Buton kaçırma
-        function kac() {
-            const x = Math.random() * (window.innerWidth - kacanBtn.offsetWidth);
-            const y = Math.random() * (window.innerHeight - kacanBtn.offsetHeight);
+        // Butonun ekranın çok dışına gitmesini engelleyen fonksiyon
+        function kac(e) {
+            // Ekran sınırlarını hesapla
+            const margin = 50;
+            const x = Math.random() * (window.innerWidth - kacanBtn.offsetWidth - margin);
+            const y = Math.random() * (window.innerHeight - kacanBtn.offsetHeight - margin);
+            
+            // Yeni koordinatları ata
+            kacanBtn.style.position = 'fixed'; // Artık wrapper'dan bağımsız tüm ekranda kaçar
             kacanBtn.style.left = x + 'px';
             kacanBtn.style.top = y + 'px';
         }
 
-        kacanBtn.addEventListener('mouseenter', kac);
-        kacanBtn.addEventListener('touchstart', (e) => { e.preventDefault(); kac(); });
+        // Fare yaklaştığında veya dokunulduğunda kaç
+        kacanBtn.addEventListener('mouseover', kac);
+        kacanBtn.addEventListener('touchstart', (e) => { 
+            e.preventDefault(); 
+            kac(); 
+        });
 
         function baslat() {
-            // Müzik sesini %100 yap ve çal
-            sarki.volume = 1.0;
-            sarki.play().catch(e => {
-                alert("Müzik dosyası (sarki.mp3) bulunamadı! Dosyanın adını kontrol et.");
-            });
-
+            sarki.play().catch(e => console.log("Müzik başlama hatası"));
             document.getElementById('mainCard').style.display = 'none';
             document.getElementById('finalMessage').style.display = 'block';
             document.body.style.background = "#ff0000";
