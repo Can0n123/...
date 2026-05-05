@@ -15,7 +15,6 @@
             font-family: 'Arial', sans-serif;
             overflow: hidden;
             color: white;
-            transition: 1s;
         }
 
         .container {
@@ -27,19 +26,18 @@
             box-shadow: 0 15px 35px rgba(0,0,0,0.2);
             width: 85%;
             max-width: 450px;
-            z-index: 10;
         }
 
         h1 { font-size: 2.2rem; margin-bottom: 30px; }
 
-        /* Butonların başlangıçta düzgün durması için */
+        /* Butonları yan yana tutan alan */
         .btn-wrapper {
             display: flex;
             justify-content: center;
             align-items: center;
-            gap: 20px;
-            height: 150px;
-            position: relative; /* İçindeki mutlak konumlu butonlar için */
+            gap: 30px; /* Aradaki boşluk */
+            height: 100px;
+            position: relative;
         }
 
         button {
@@ -49,21 +47,16 @@
             border-radius: 50px;
             cursor: pointer;
             font-weight: bold;
-            transition: transform 0.2s;
+            transition: 0.2s;
         }
 
-        #evetBtn { 
-            background: white; 
-            color: #ff416c; 
-            z-index: 5;
-        }
+        #evetBtn { background: white; color: #ff416c; }
 
+        /* Başlangıçta efendi gibi duran Hayır butonu */
         #kacanBtn {
             background: #333;
             color: white;
-            position: absolute; /* Kaçabilmesi için şart */
-            transition: all 0.2s ease; /* Daha yumuşak kaçış */
-            z-index: 10;
+            z-index: 100;
         }
 
         #finalMessage { display: none; text-align: center; }
@@ -93,28 +86,23 @@
         const kacanBtn = document.getElementById('kacanBtn');
         const sarki = document.getElementById('askSarkisi');
 
-        // Butonun ekranın çok dışına gitmesini engelleyen fonksiyon
-        function kac(e) {
-            // Ekran sınırlarını hesapla
-            const margin = 50;
+        function kac() {
+            // Butonun kaçarken ekranın dışına çıkmaması için sınırlar
+            const margin = 100;
             const x = Math.random() * (window.innerWidth - kacanBtn.offsetWidth - margin);
             const y = Math.random() * (window.innerHeight - kacanBtn.offsetHeight - margin);
             
-            // Yeni koordinatları ata
-            kacanBtn.style.position = 'fixed'; // Artık wrapper'dan bağımsız tüm ekranda kaçar
+            // İlk kez kaçtığında pozisyonunu serbest bırakıyoruz
+            kacanBtn.style.position = 'fixed';
             kacanBtn.style.left = x + 'px';
             kacanBtn.style.top = y + 'px';
         }
 
-        // Fare yaklaştığında veya dokunulduğunda kaç
-        kacanBtn.addEventListener('mouseover', kac);
-        kacanBtn.addEventListener('touchstart', (e) => { 
-            e.preventDefault(); 
-            kac(); 
-        });
+        kacanBtn.addEventListener('mouseenter', kac);
+        kacanBtn.addEventListener('touchstart', (e) => { e.preventDefault(); kac(); });
 
         function baslat() {
-            sarki.play().catch(e => console.log("Müzik başlama hatası"));
+            sarki.play().catch(e => console.log("Müzik hatası"));
             document.getElementById('mainCard').style.display = 'none';
             document.getElementById('finalMessage').style.display = 'block';
             document.body.style.background = "#ff0000";
