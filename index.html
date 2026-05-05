@@ -12,70 +12,82 @@
             justify-content: center;
             align-items: center;
             background: linear-gradient(45deg, #ff1744, #ff8a80);
-            font-family: 'Poppins', sans-serif;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             overflow: hidden;
             color: white;
-            transition: 1s;
+            transition: background 1s;
         }
 
         .container {
             text-align: center;
             background: rgba(255, 255, 255, 0.2);
-            padding: 50px;
-            border-radius: 20px;
-            backdrop-filter: blur(10px);
-            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
-            width: 80%;
-            max-width: 500px;
+            padding: 40px;
+            border-radius: 25px;
+            backdrop-filter: blur(15px);
+            box-shadow: 0 15px 35px rgba(0,0,0,0.3);
+            width: 85%;
+            max-width: 450px;
+            position: relative;
             z-index: 10;
         }
 
         h1 {
-            font-size: 2.5rem;
+            font-size: 2.2rem;
             margin-bottom: 30px;
-            text-shadow: 2px 2px 5px rgba(0,0,0,0.3);
+            text-shadow: 2px 2px 8px rgba(0,0,0,0.2);
         }
 
         .buttons {
             display: flex;
             justify-content: center;
-            gap: 50px;
+            gap: 40px;
             align-items: center;
-            height: 100px;
+            height: 120px;
         }
 
         button {
-            padding: 15px 30px;
+            padding: 15px 35px;
             font-size: 1.2rem;
             border: none;
             border-radius: 50px;
             cursor: pointer;
             font-weight: bold;
-            transition: 0.3s;
+            transition: transform 0.2s, box-shadow 0.2s;
         }
 
         #evetBtn {
             background-color: #ffffff;
             color: #ff1744;
+            box-shadow: 0 5px 15px rgba(255,255,255,0.4);
+        }
+
+        #evetBtn:active {
+            transform: scale(0.9);
         }
 
         #kacanBtn {
             background-color: #333;
             color: white;
             position: absolute;
+            z-index: 999;
         }
 
-        .final-screen {
+        #finalMessage {
             display: none;
             text-align: center;
+            animation: zoomIn 0.8s ease-out;
+        }
+
+        @keyframes zoomIn {
+            from { transform: scale(0); opacity: 0; }
+            to { transform: scale(1); opacity: 1; }
         }
     </style>
 </head>
 <body>
 
-    <!-- Kendi Şarkın Burada -->
-    <!-- src kısmına şarkı dosyanın tam adını yaz (uzantısı .mp3 olsun) -->
-    <audio id="askSarkisi" loop>
+    <!-- Müzik Çalar -->
+    <audio id="askSarkisi" preload="auto" loop>
         <source src="sarki.mp3" type="audio/mpeg">
     </audio>
 
@@ -87,33 +99,50 @@
         </div>
     </div>
 
-    <div id="finalMessage" class="final-screen">
-        <h1 style="font-size:5rem;">❤️ SENİ SEVİYORUM ❤️</h1>
-        <p style="font-size:2rem;">Hazırlan, operasyon başlıyor! ✈️</p>
+    <div id="finalMessage">
+        <h1 style="font-size:4rem;">❤️ SENİ SEVİYORUM ❤️</h1>
+        <p style="font-size:1.8rem;">Hazırlan, operasyon başlıyor! ✈️</p>
     </div>
 
     <script>
         const kacanBtn = document.getElementById('kacanBtn');
         const sarki = document.getElementById('askSarkisi');
+        const mainCard = document.getElementById('mainCard');
+        const finalMessage = document.getElementById('finalMessage');
 
-        function butonuKacir() {
-            const x = Math.random() * (window.innerWidth - kacanBtn.offsetWidth);
-            const y = Math.random() * (window.innerHeight - kacanBtn.offsetHeight);
-            kacanBtn.style.left = x + 'px';
-            kacanBtn.style.top = y + 'px';
+        // Buton Kaçırma Fonksiyonu
+        function moveButton() {
+            const maxX = window.innerWidth - kacanBtn.offsetWidth - 20;
+            const maxY = window.innerHeight - kacanBtn.offsetHeight - 20;
+            
+            const randomX = Math.floor(Math.random() * maxX);
+            const randomY = Math.floor(Math.random() * maxY);
+            
+            kacanBtn.style.left = randomX + 'px';
+            kacanBtn.style.top = randomY + 'px';
         }
 
-        kacanBtn.addEventListener('mouseenter', butonuKacir);
-        kacanBtn.addEventListener('touchstart', butonuKacir);
+        // Hem mouse hem dokunmatik ekranlar için
+        kacanBtn.addEventListener('mouseenter', moveButton);
+        kacanBtn.addEventListener('touchstart', (e) => {
+            e.preventDefault();
+            moveButton();
+        });
 
+        // Evet butonuna basınca olacaklar
         function baslat() {
-            // Şarkıyı çalmaya çalış
-            sarki.play().catch(error => {
-                console.log("Müzik çalma hatası:", error);
+            // Şarkıyı çal
+            sarki.play().then(() => {
+                console.log("Müzik başarıyla başladı.");
+            }).catch(e => {
+                console.error("Müzik çalma hatası. Dosya ismini kontrol et:", e);
+                // Eğer sarki.mp3 bulunamazsa bir uyarı vermesini istersen burayı açabilirsin:
+                // alert("Şarkı bulunamadı, dosya ismini kontrol et!");
             });
-            
-            document.getElementById('mainCard').style.display = 'none';
-            document.getElementById('finalMessage').style.display = 'block';
+
+            // Ekran değiştirme
+            mainCard.style.display = 'none';
+            finalMessage.style.display = 'block';
             document.body.style.background = "#ff4b2b";
         }
     </script>
