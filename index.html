@@ -3,65 +3,62 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sana Bir Sorum Var!</title>
+    <title>Sürpriz! ❤️</title>
     <style>
         body {
             margin: 0;
-            padding: 0;
-            font-family: 'Arial', sans-serif;
-            background: linear-gradient(135deg, #ff758c 0%, #ff7eb3 100%);
             height: 100vh;
             display: flex;
             justify-content: center;
             align-items: center;
+            background: linear-gradient(45deg, #ff1744, #ff8a80);
+            font-family: 'Poppins', sans-serif;
             overflow: hidden;
-            text-align: center;
-        }
-
-        .card {
-            background: white;
-            padding: 40px;
-            border-radius: 30px;
-            box-shadow: 0 15px 35px rgba(0,0,0,0.2);
-            position: relative;
-            max-width: 90%;
-        }
-
-        h1 {
-            color: #d81b60;
-            font-size: 2rem;
-            margin-bottom: 20px;
-        }
-
-        .emoji {
-            font-size: 50px;
-            margin-bottom: 10px;
-        }
-
-        .btn-container {
-            display: flex;
-            justify-content: center;
-            gap: 20px;
-            margin-top: 30px;
-        }
-
-        .btn {
-            padding: 12px 25px;
-            font-size: 1.1rem;
-            border: none;
-            border-radius: 50px;
-            cursor: pointer;
-            transition: 0.3s;
-            font-weight: bold;
-        }
-
-        #yesBtn {
-            background-color: #4caf50;
             color: white;
         }
 
-        #noBtn {
-            background-color: #f44336;
+        .container {
+            text-align: center;
+            background: rgba(255, 255, 255, 0.2);
+            padding: 50px;
+            border-radius: 20px;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            width: 80%;
+            max-width: 500px;
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 30px;
+            text-shadow: 2px 2px 5px rgba(0,0,0,0.3);
+        }
+
+        .buttons {
+            display: flex;
+            justify-content: center;
+            gap: 50px;
+            align-items: center;
+            height: 100px;
+        }
+
+        button {
+            padding: 15px 30px;
+            font-size: 1.2rem;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: 0.3s;
+        }
+
+        #evetBtn {
+            background-color: #ffffff;
+            color: #ff1744;
+        }
+
+        #kacanBtn {
+            background-color: #333;
             color: white;
             position: absolute;
         }
@@ -69,40 +66,39 @@
 </head>
 <body>
 
-    <div class="card">
-        <div class="emoji">👑❤️</div>
-        <h1>Sana Aşığım, Seni Kaçıracam Kızım❤️</h1>
-        <p>Benimle gelmeye hazır mısın?</p>
-        
-        <div class="btn-container">
-            <button id="yesBtn" class="btn" onclick="celebrate()">EVET!</button>
-            <button id="noBtn" class="btn">HAYIR</button>
+    <div class="container">
+        <h1>Sana Aşığım Seni Kaçıracam Kızım❤️</h1>
+        <div class="buttons">
+            <button id="evetBtn" onclick="tebrikler()">EVET</button>
+            <button id="kacanBtn">HAYIR</button>
         </div>
     </div>
 
     <script>
-        const noBtn = document.getElementById('noBtn');
-        const yesBtn = document.getElementById('yesBtn');
+        const kacanBtn = document.getElementById('kacanBtn');
 
         // Butonun kaçma fonksiyonu
-        noBtn.addEventListener('mouseover', () => {
-            const x = Math.random() * (window.innerWidth - noBtn.offsetWidth);
-            const y = Math.random() * (window.innerHeight - noBtn.offsetHeight);
+        function butonuKacir() {
+            // Ekran genişliği ve yüksekliğini al
+            const x = Math.random() * (window.innerWidth - kacanBtn.offsetWidth);
+            const y = Math.random() * (window.innerHeight - kacanBtn.offsetHeight);
             
-            noBtn.style.left = `${x}px`;
-            noBtn.style.top = `${y}px`;
-        });
+            kacanBtn.style.left = x + 'px';
+            kacanBtn.style.top = y + 'px';
+        }
 
-        // Evet butonuna basınca olacaklar
-        function celebrate() {
-            alert('Zaten başka şansın yoktu! ❤️ Hazırlan, kaçırılıyorsun!');
+        // Hem mouse hem dokunma için kaçma tetikleyicisi
+        kacanBtn.addEventListener('mouseenter', butonuKacir);
+        kacanBtn.addEventListener('touchstart', butonuKacir);
+
+        function tebrikler() {
+            alert('Zaten başka seçeneğin yoktu! ❤️ Hazırlan, operasyon başlıyor!');
             document.body.innerHTML = `
-                <div style="color:white; text-align:center;">
-                    <h1 style="font-size:4rem;">❤️ OLEY! ❤️</h1>
-                    <p style="font-size:2rem;">Seninle her yere gelirim!</p>
+                <div style="text-align:center; width:100%;">
+                    <h1 style="font-size:5rem;">❤️ SENİ SEVİYORUM ❤️</h1>
+                    <p style="font-size:2rem;">Artık benimle geliyorsun!</p>
                 </div>
             `;
-            document.body.style.backgroundColor = "#ff4b2b";
         }
     </script>
 
