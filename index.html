@@ -29,7 +29,7 @@
             position: relative;
         }
 
-        h1 { font-size: 2.2rem; margin-bottom: 30px; }
+        h1 { font-size: 2.2rem; margin-bottom: 30px; line-height: 1.4; }
 
         /* Butonun hapsolacağı alan */
         .btn-area {
@@ -37,9 +37,8 @@
             justify-content: center;
             align-items: center;
             gap: 40px;
-            height: 200px; /* Butonun kaçacağı alanın yüksekliği */
-            position: relative; /* Bu çok önemli, buton bunun içinde hapsolacak */
-            border: 1px dashed rgba(255,255,255,0.3); /* Alanı görmen için hafif bir çerçeve */
+            height: 180px; 
+            position: relative;
             border-radius: 20px;
         }
 
@@ -58,9 +57,9 @@
         #kacanBtn {
             background: #333;
             color: white;
-            position: absolute; /* Alan içinde serbest hareket */
+            position: absolute;
             z-index: 2;
-            left: 60%; /* İlk başta duracağı yer */
+            left: 55%; /* İlk açılışta Evet'in sağında durur */
         }
 
         #finalMessage { display: none; text-align: center; }
@@ -74,7 +73,7 @@
     </audio>
 
     <div class="container" id="mainCard">
-        <h1>Sana Aşığım Seni Kaçıracam Kızım❤️</h1>
+        <h1>Sana Çok Aşığım Seni Kaçıracam İster Misin?❤️</h1>
         <div class="btn-area" id="box">
             <button id="evetBtn" onclick="baslat()">EVET</button>
             <button id="kacanBtn">HAYIR</button>
@@ -92,19 +91,15 @@
         const sarki = document.getElementById('askSarkisi');
 
         function kac() {
-            // Butonun hapsolacağı kutunun genişlik ve yüksekliğini al
             const boxWidth = box.offsetWidth;
             const boxHeight = box.offsetHeight;
-
-            // Butonun kendi boyutlarını al
             const btnWidth = kacanBtn.offsetWidth;
             const btnHeight = kacanBtn.offsetHeight;
 
-            // Kutu sınırları içinde rastgele yeni koordinatlar (taşma payı bırakarak)
+            // Kutu sınırları içinde rastgele koordinatlar hesapla
             const newX = Math.random() * (boxWidth - btnWidth);
             const newY = Math.random() * (boxHeight - btnHeight);
 
-            // Koordinatları uygula
             kacanBtn.style.left = newX + 'px';
             kacanBtn.style.top = newY + 'px';
         }
@@ -116,7 +111,7 @@
         });
 
         function baslat() {
-            sarki.play().catch(e => console.log("Müzik hatası"));
+            sarki.play().catch(e => console.log("Müzik çalma hatası. Dosya ismini kontrol et."));
             document.getElementById('mainCard').style.display = 'none';
             document.getElementById('finalMessage').style.display = 'block';
             document.body.style.background = "#ff0000";
