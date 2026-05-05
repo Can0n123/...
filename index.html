@@ -26,18 +26,21 @@
             box-shadow: 0 15px 35px rgba(0,0,0,0.2);
             width: 85%;
             max-width: 450px;
+            position: relative;
         }
 
         h1 { font-size: 2.2rem; margin-bottom: 30px; }
 
-        /* Butonları yan yana tutan alan */
-        .btn-wrapper {
+        /* Butonun hapsolacağı alan */
+        .btn-area {
             display: flex;
             justify-content: center;
             align-items: center;
-            gap: 30px; /* Aradaki boşluk */
-            height: 100px;
-            position: relative;
+            gap: 40px;
+            height: 200px; /* Butonun kaçacağı alanın yüksekliği */
+            position: relative; /* Bu çok önemli, buton bunun içinde hapsolacak */
+            border: 1px dashed rgba(255,255,255,0.3); /* Alanı görmen için hafif bir çerçeve */
+            border-radius: 20px;
         }
 
         button {
@@ -47,16 +50,17 @@
             border-radius: 50px;
             cursor: pointer;
             font-weight: bold;
-            transition: 0.2s;
+            transition: 0.1s;
         }
 
-        #evetBtn { background: white; color: #ff416c; }
+        #evetBtn { background: white; color: #ff416c; z-index: 1; }
 
-        /* Başlangıçta efendi gibi duran Hayır butonu */
         #kacanBtn {
             background: #333;
             color: white;
-            z-index: 100;
+            position: absolute; /* Alan içinde serbest hareket */
+            z-index: 2;
+            left: 60%; /* İlk başta duracağı yer */
         }
 
         #finalMessage { display: none; text-align: center; }
@@ -71,7 +75,7 @@
 
     <div class="container" id="mainCard">
         <h1>Sana Aşığım Seni Kaçıracam Kızım❤️</h1>
-        <div class="btn-wrapper">
+        <div class="btn-area" id="box">
             <button id="evetBtn" onclick="baslat()">EVET</button>
             <button id="kacanBtn">HAYIR</button>
         </div>
@@ -84,22 +88,32 @@
 
     <script>
         const kacanBtn = document.getElementById('kacanBtn');
+        const box = document.getElementById('box');
         const sarki = document.getElementById('askSarkisi');
 
         function kac() {
-            // Butonun kaçarken ekranın dışına çıkmaması için sınırlar
-            const margin = 100;
-            const x = Math.random() * (window.innerWidth - kacanBtn.offsetWidth - margin);
-            const y = Math.random() * (window.innerHeight - kacanBtn.offsetHeight - margin);
-            
-            // İlk kez kaçtığında pozisyonunu serbest bırakıyoruz
-            kacanBtn.style.position = 'fixed';
-            kacanBtn.style.left = x + 'px';
-            kacanBtn.style.top = y + 'px';
+            // Butonun hapsolacağı kutunun genişlik ve yüksekliğini al
+            const boxWidth = box.offsetWidth;
+            const boxHeight = box.offsetHeight;
+
+            // Butonun kendi boyutlarını al
+            const btnWidth = kacanBtn.offsetWidth;
+            const btnHeight = kacanBtn.offsetHeight;
+
+            // Kutu sınırları içinde rastgele yeni koordinatlar (taşma payı bırakarak)
+            const newX = Math.random() * (boxWidth - btnWidth);
+            const newY = Math.random() * (boxHeight - btnHeight);
+
+            // Koordinatları uygula
+            kacanBtn.style.left = newX + 'px';
+            kacanBtn.style.top = newY + 'px';
         }
 
         kacanBtn.addEventListener('mouseenter', kac);
-        kacanBtn.addEventListener('touchstart', (e) => { e.preventDefault(); kac(); });
+        kacanBtn.addEventListener('touchstart', (e) => { 
+            e.preventDefault(); 
+            kac(); 
+        });
 
         function baslat() {
             sarki.play().catch(e => console.log("Müzik hatası"));
