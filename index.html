@@ -3,120 +3,108 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sana Bir Sorum Var! ❤️</title>
-    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+    <title>Sana Bir Sorum Var!</title>
     <style>
         body {
             margin: 0;
+            padding: 0;
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(135deg, #ff758c 0%, #ff7eb3 100%);
             height: 100vh;
             display: flex;
             justify-content: center;
             align-items: center;
-            background-color: #ff8fa3; /* İstediğin pembe tonu */
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             overflow: hidden;
+            text-align: center;
         }
 
-        .container {
-            text-align: center;
-            background: rgba(255, 255, 255, 0.9);
+        .card {
+            background: white;
             padding: 40px;
-            border-radius: 25px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
-            width: 350px;
-            min-height: 250px;
+            border-radius: 30px;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.2);
             position: relative;
-            border: 4px solid #ff4d6d;
+            max-width: 90%;
         }
 
         h1 {
-            color: #ff4d6d;
-            font-size: 1.6rem;
-            margin-bottom: 60px;
-            line-height: 1.4;
+            color: #d81b60;
+            font-size: 2rem;
+            margin-bottom: 20px;
         }
 
-        .btn-group {
+        .emoji {
+            font-size: 50px;
+            margin-bottom: 10px;
+        }
+
+        .btn-container {
             display: flex;
             justify-content: center;
             gap: 20px;
+            margin-top: 30px;
         }
 
-        button {
-            padding: 12px 30px;
+        .btn {
+            padding: 12px 25px;
             font-size: 1.1rem;
-            font-weight: bold;
             border: none;
             border-radius: 50px;
             cursor: pointer;
-            transition: transform 0.2s;
+            transition: 0.3s;
+            font-weight: bold;
         }
 
-        #evetBtn {
-            background-color: #2ecc71;
+        #yesBtn {
+            background-color: #4caf50;
             color: white;
-            box-shadow: 0 5px 15px rgba(46, 204, 113, 0.4);
         }
 
-        #hayirBtn {
-            background-color: #e74c3c;
+        #noBtn {
+            background-color: #f44336;
             color: white;
             position: absolute;
-            box-shadow: 0 5px 15px rgba(231, 76, 60, 0.4);
-            z-index: 1000;
         }
     </style>
 </head>
 <body>
 
-    <audio id="muzik">
-        <source src="sarki.mp3" type="audio/mpeg">
-    </audio>
-
-    <div class="container" id="kutu">
-        <h1 id="txt">Ben Senden Hoşlanıyorum, <br>Benimle Çıkar Mısın? ❤️</h1>
-        <div class="btn-group">
-            <button id="evetBtn" onclick="onayla()">Evet ❤️</button>
-            <button id="hayirBtn" onmouseover="kac()" style="left: 190px; top: 165px;">Hayır</button>
+    <div class="card">
+        <div class="emoji">👑❤️</div>
+        <h1>Sana Aşığım, Seni Kaçıracam Kızım❤️</h1>
+        <p>Benimle gelmeye hazır mısın?</p>
+        
+        <div class="btn-container">
+            <button id="yesBtn" class="btn" onclick="celebrate()">EVET!</button>
+            <button id="noBtn" class="btn">HAYIR</button>
         </div>
     </div>
 
     <script>
-        function kac() {
-            const btn = document.getElementById('hayirBtn');
-            const kutu = document.getElementById('kutu');
+        const noBtn = document.getElementById('noBtn');
+        const yesBtn = document.getElementById('yesBtn');
+
+        // Butonun kaçma fonksiyonu
+        noBtn.addEventListener('mouseover', () => {
+            const x = Math.random() * (window.innerWidth - noBtn.offsetWidth);
+            const y = Math.random() * (window.innerHeight - noBtn.offsetHeight);
             
-            // Butonun sadece beyaz kutu içinde kalması için sınırlar
-            const maxX = kutu.clientWidth - btn.clientWidth - 20;
-            const maxY = kutu.clientHeight - btn.clientHeight - 20;
-            
-            const randomX = Math.floor(Math.random() * maxX);
-            const randomY = Math.floor(Math.random() * maxY);
-            
-            btn.style.left = randomX + 'px';
-            btn.style.top = randomY + 'px';
-        }
+            noBtn.style.left = `${x}px`;
+            noBtn.style.top = `${y}px`;
+        });
 
-        function onayla() {
-            const m = document.getElementById('muzik');
-            m.play().catch(e => console.log("Müzik yüklenemedi."));
-
-            // Konfeti patlatma (Profesyonel efekt)
-            confetti({
-                particleCount: 150,
-                spread: 70,
-                origin: { y: 0.6 },
-                colors: ['#ff4d6d', '#ff8fa3', '#ffffff']
-            });
-
-            document.getElementById('txt').innerHTML = "Bende Seni Çok Seviyorum Yavrummm ❤️❤️❤️";
-            document.getElementById('evetBtn').remove();
-            document.getElementById('hayirBtn').remove();
-
-            setTimeout(() => {
-                alert("Dünyanın en mutlu insanı yaptın beni! ❤️");
-            }, 500);
+        // Evet butonuna basınca olacaklar
+        function celebrate() {
+            alert('Zaten başka şansın yoktu! ❤️ Hazırlan, kaçırılıyorsun!');
+            document.body.innerHTML = `
+                <div style="color:white; text-align:center;">
+                    <h1 style="font-size:4rem;">❤️ OLEY! ❤️</h1>
+                    <p style="font-size:2rem;">Seninle her yere gelirim!</p>
+                </div>
+            `;
+            document.body.style.backgroundColor = "#ff4b2b";
         }
     </script>
+
 </body>
 </html>
