@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sürpriz! ❤️</title>
+    <title>Sana Bir Sorum Var! ❤️</title>
     <style>
         body {
             margin: 0;
@@ -11,38 +11,33 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            background: linear-gradient(45deg, #ff1744, #ff8a80);
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(45deg, #ff4b2b, #ff416c);
+            font-family: 'Arial', sans-serif;
             overflow: hidden;
             color: white;
-            transition: background 1s;
+            transition: 1s;
         }
 
         .container {
             text-align: center;
-            background: rgba(255, 255, 255, 0.2);
+            background: rgba(255, 255, 255, 0.15);
             padding: 40px;
-            border-radius: 25px;
-            backdrop-filter: blur(15px);
-            box-shadow: 0 15px 35px rgba(0,0,0,0.3);
+            border-radius: 30px;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 15px 35px rgba(0,0,0,0.2);
             width: 85%;
             max-width: 450px;
-            position: relative;
             z-index: 10;
         }
 
-        h1 {
-            font-size: 2.2rem;
-            margin-bottom: 30px;
-            text-shadow: 2px 2px 8px rgba(0,0,0,0.2);
-        }
+        h1 { font-size: 2.2rem; margin-bottom: 30px; }
 
         .buttons {
             display: flex;
             justify-content: center;
             gap: 40px;
+            height: 150px;
             align-items: center;
-            height: 120px;
         }
 
         button {
@@ -52,43 +47,27 @@
             border-radius: 50px;
             cursor: pointer;
             font-weight: bold;
-            transition: transform 0.2s, box-shadow 0.2s;
         }
 
-        #evetBtn {
-            background-color: #ffffff;
-            color: #ff1744;
-            box-shadow: 0 5px 15px rgba(255,255,255,0.4);
-        }
-
-        #evetBtn:active {
-            transform: scale(0.9);
-        }
+        #evetBtn { background: white; color: #ff416c; }
 
         #kacanBtn {
-            background-color: #333;
+            background: #333;
             color: white;
             position: absolute;
-            z-index: 999;
+            transition: 0.1s;
         }
 
-        #finalMessage {
-            display: none;
-            text-align: center;
-            animation: zoomIn 0.8s ease-out;
-        }
-
-        @keyframes zoomIn {
-            from { transform: scale(0); opacity: 0; }
-            to { transform: scale(1); opacity: 1; }
-        }
+        #finalMessage { display: none; text-align: center; }
     </style>
 </head>
 <body>
 
-    <!-- Müzik Çalar -->
-    <audio id="askSarkisi" preload="auto" loop>
+    <!-- Müzik Kutusu -->
+    <audio id="askSarkisi" loop>
+        <!-- Tarayıcıya iki seçenek sunuyoruz, hangisi tutarsa -->
         <source src="sarki.mp3" type="audio/mpeg">
+        <source src="sarki" type="audio/mpeg">
     </audio>
 
     <div class="container" id="mainCard">
@@ -107,45 +86,29 @@
     <script>
         const kacanBtn = document.getElementById('kacanBtn');
         const sarki = document.getElementById('askSarkisi');
-        const mainCard = document.getElementById('mainCard');
-        const finalMessage = document.getElementById('finalMessage');
 
-        // Buton Kaçırma Fonksiyonu
-        function moveButton() {
-            const maxX = window.innerWidth - kacanBtn.offsetWidth - 20;
-            const maxY = window.innerHeight - kacanBtn.offsetHeight - 20;
-            
-            const randomX = Math.floor(Math.random() * maxX);
-            const randomY = Math.floor(Math.random() * maxY);
-            
-            kacanBtn.style.left = randomX + 'px';
-            kacanBtn.style.top = randomY + 'px';
+        // Buton kaçırma
+        function kac() {
+            const x = Math.random() * (window.innerWidth - kacanBtn.offsetWidth);
+            const y = Math.random() * (window.innerHeight - kacanBtn.offsetHeight);
+            kacanBtn.style.left = x + 'px';
+            kacanBtn.style.top = y + 'px';
         }
 
-        // Hem mouse hem dokunmatik ekranlar için
-        kacanBtn.addEventListener('mouseenter', moveButton);
-        kacanBtn.addEventListener('touchstart', (e) => {
-            e.preventDefault();
-            moveButton();
-        });
+        kacanBtn.addEventListener('mouseenter', kac);
+        kacanBtn.addEventListener('touchstart', (e) => { e.preventDefault(); kac(); });
 
-        // Evet butonuna basınca olacaklar
         function baslat() {
-            // Şarkıyı çal
-            sarki.play().then(() => {
-                console.log("Müzik başarıyla başladı.");
-            }).catch(e => {
-                console.error("Müzik çalma hatası. Dosya ismini kontrol et:", e);
-                // Eğer sarki.mp3 bulunamazsa bir uyarı vermesini istersen burayı açabilirsin:
-                // alert("Şarkı bulunamadı, dosya ismini kontrol et!");
+            // Müzik sesini %100 yap ve çal
+            sarki.volume = 1.0;
+            sarki.play().catch(e => {
+                alert("Müzik dosyası (sarki.mp3) bulunamadı! Dosyanın adını kontrol et.");
             });
 
-            // Ekran değiştirme
-            mainCard.style.display = 'none';
-            finalMessage.style.display = 'block';
-            document.body.style.background = "#ff4b2b";
+            document.getElementById('mainCard').style.display = 'none';
+            document.getElementById('finalMessage').style.display = 'block';
+            document.body.style.background = "#ff0000";
         }
     </script>
-
 </body>
 </html>
