@@ -73,10 +73,10 @@
 </head>
 <body>
 
-    <!-- Müzik Dosyası Buraya -->
+    <!-- Kendi Şarkın Burada -->
+    <!-- src kısmına şarkı dosyanın tam adını yaz (uzantısı .mp3 olsun) -->
     <audio id="askSarkisi" loop>
-        <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" type="audio/mpeg">
-        Tarayıcın bu sesi desteklemiyor.
+        <source src="sarki.mp3" type="audio/mpeg">
     </audio>
 
     <div class="container" id="mainCard">
@@ -96,7 +96,6 @@
         const kacanBtn = document.getElementById('kacanBtn');
         const sarki = document.getElementById('askSarkisi');
 
-        // Kaçan Buton Fonksiyonu
         function butonuKacir() {
             const x = Math.random() * (window.innerWidth - kacanBtn.offsetWidth);
             const y = Math.random() * (window.innerHeight - kacanBtn.offsetHeight);
@@ -107,18 +106,15 @@
         kacanBtn.addEventListener('mouseenter', butonuKacir);
         kacanBtn.addEventListener('touchstart', butonuKacir);
 
-        // Evet'e basınca çalışacak fonksiyon
         function baslat() {
-            // Şarkıyı başlat
-            sarki.play();
+            // Şarkıyı çalmaya çalış
+            sarki.play().catch(error => {
+                console.log("Müzik çalma hatası:", error);
+            });
             
-            // Ekranı değiştir
             document.getElementById('mainCard').style.display = 'none';
             document.getElementById('finalMessage').style.display = 'block';
             document.body.style.background = "#ff4b2b";
-            
-            // Küçük bir konfeti efekti uyarısı
-            alert('Müzik eşliğinde kaçırılıyorsun! ❤️');
         }
     </script>
 
